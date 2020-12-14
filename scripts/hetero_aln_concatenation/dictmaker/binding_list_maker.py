@@ -44,7 +44,7 @@ def binding_only_file_reader(_seq_file):
             number_counter = number_counter + 1
             if number_counter % 1000000 == 0:
                 print('number_counter ' + str(number_counter))
-    np.save('/exports/store1/raj/future_task_new_db/' + 'STRINGS_MONO_DB_DICT.npy', my_dictionary)
+    np.save('STRINGS_BINDING_DB_DICT.npy', my_dictionary)
 
 
 binding_only_file_reader('/exports/store1/raj/future_task_new_db/binding_file.txt')
