@@ -35,3 +35,5 @@ P=readIndexFile(idx_file_A)
 Q=readIndexFile(idx_file_B)
 lenP=len(P)
 lenQ=len(Q)
+
+
