@@ -1,5 +1,6 @@
 import copy
 import os
+import random
 
 import numpy as np
 
@@ -114,69 +115,42 @@ def label_formatter(_arr, _len):
 
 
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/fasta_dictionary.txt')
-true_dir = '/home/rajroy/Contacts/contacts_heterodimers/'
-true_files = specific_filename_reader(_input_dir=true_dir, _extension='.rr')
+
 fasta_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/het30_splitted_fasta/'
-fasta_list = specific_dir_reader(fasta_dir)
-out_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/Y_Label_1/'
+file = fasta_list = specific_dir_reader(fasta_dir)[0]
+
 file_arr = []
-for file in true_files:
+
+total = 0
+count = 0
+# geta  fastas
+# read it from fasta Dicta
+# find the order
+# make empty numpy
+# rnadom values
+
+# for file in fasta_list:
+print(file)
+
+# name_arr = file.split('_')
+name = ''
+order_a = 0
+order_b = 0
+
+if '__' in file:
+
+    name_arr = file.replace('__', '_').split('_')
+    name = name_arr[1] + '_' + name_arr[0]
+
+    order_b = len(fasta_dict.get(name_arr[1]))
+
+else:
     name_arr = file.split('_')
     name = name_arr[0] + '_' + name_arr[1]
-    file_arr.append(name)
-total=0
-count = 0
-for file in fasta_list:
-    print(file)
 
-    # name_arr = file.split('_')
-    name = ''
-    order_a = 0
-    order_b = 0
-
-    if '__' in file:
-
-        name_arr = file.replace('__', '_').split('_')
-        name = name_arr[1] + '_' + name_arr[0]
-        # order_a = len(fasta_dict.get(name_arr[1]))
-        order_a =0
-        order_b =  len(fasta_dict.get(name_arr[1]))
-
-    else:
-        name_arr = file.split('_')
-        name = name_arr[0] + '_' + name_arr[1]
-        order_a = 0
-        order_b = len(fasta_dict.get(name_arr[0]))
-
-    len_a = len(fasta_dict.get(name_arr[0]))
-    len_b = len(fasta_dict.get(name_arr[1]))
-    total = len_a + len_b
-    print( str (len_a)+','+str(len_b)+','+str(len_a + len_b))
-    # # before do a search to see if any missing
-    # if name in file_arr:
-    #     count +=1
-    # # elif name_arr[0]+'_'+name_arr[1] in file_arr:
-    # #     count+=1
-    # else:
-    #     print(file)
-
-    # file_array_return()
-    true_file_format = name + '_contact_' + name[4] + name[10] + '.rr'
-    # get length
-    final_name = out_dir + name + '.txt'
-
-    if not os.path.isfile(final_name):
-        dist_array = read_pair_file_into_array(true_dir + true_file_format)
-        filter_array = filter_dist_array(dist_array, order_a, order_b)
-        formatted_value = label_formatter(filter_array, total)
-
-        write2file(final_name, formatted_value)
-    count = count + 1
-    print(count)
-print(count)
-print(len(fasta_list))
-print(count / len(fasta_list))
-
-# modify the res number
-# matrix of L x L
-# for each row [i][j] ==1
+len_a = len(fasta_dict.get(name_arr[0]))
+len_b = len(fasta_dict.get(name_arr[1]))
+total = len_a + len_b
+print(str(len_a) + ',' + str(len_b) + ',' + str(len_a + len_b))
+random_cmap = np.random.random((total, total))
+print(random_cmap)
