@@ -18,7 +18,7 @@ def make_relax(_Y, _relax):
 
     result = np.where(_Y == 1.0)
     number_contacts = len(result[0])
-    print('before relax ' + str(number_contacts))
+    # print('before relax ' + str(number_contacts))
     counter_tracker = 0
     for val in range(0, number_contacts):
         for x_increment in comb:
@@ -36,8 +36,8 @@ def make_relax(_Y, _relax):
                         # print(original_arr[index_X][index_Y])
     result = np.where(original_arr == 1.0)
     number_contacts = len(result[0])
-    print('afterrelax ' + str(number_contacts))
-    print(counter_tracker)
+    # print('afterrelax ' + str(number_contacts))
+    # print(counter_tracker)
 
     return original_arr
 
@@ -58,10 +58,11 @@ def getY(true_file):
     L = len(inter_array)
     relax_0_array = np.asfarray(inter_array, float)
     # print(inter_array)
-    relax_1_array = make_relax(relax_0_array, 1)
-    relax_2_array = make_relax(relax_0_array, 2)
-    return relax_0_array, relax_1_array, relax_2_array
+
+    return relax_0_array
 
 
-y = getY(input_cmap)
-# print(y)
+# relax_0_array= getY(input_cmap)
+# relax_1_array = make_relax(relax_0_array, 1)
+# relax_2_array = make_relax(relax_0_array, 2)
+# # print(y)
