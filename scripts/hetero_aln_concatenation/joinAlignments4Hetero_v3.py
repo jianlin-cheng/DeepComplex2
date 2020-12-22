@@ -5,6 +5,7 @@ Created on Mon Dec 14 03:13:59 2020
 
 @author: farhan
 """
+#### This version avoids the use of the ppi_dict. 
 
 #this script reads the two heteromeric alignments in .a3m format
 #creates respectie dictionaries and indices
@@ -19,6 +20,8 @@ def getName(file):
 
 def createDictFromA3m(file,name):
     aln_dict={}
+    #dict_key_dict={}
+    #key_list=[]
     with open (file) as f:
         for line in f:
             if line.startswith(">"):
@@ -47,14 +50,14 @@ def loadFastaDictionary(filename):
 
 aln_A=os.path.abspath(sys.argv[1])
 aln_B=os.path.abspath(sys.argv[2])
-ppi_file=os.path.abspath(sys.argv[3])
-outdir=os.path.abspath(sys.argv[4])+"/"
+#ppi_file=os.path.abspath(sys.argv[3])
+outdir=os.path.abspath(sys.argv[3])+"/"
 
 if not os.path.isdir(outdir): os.makedirs(outdir)
 #loading the ppi_dict can fail. This file is very big
-ppi_dict = np.load(ppi_file, allow_pickle='TRUE').item()
-print ("PPI_DICT_LEN=",len(ppi_dict))
-print (type(ppi_dict))
+#ppi_dict = np.load(ppi_file, allow_pickle='TRUE').item()
+#print ("PPI_DICT_LEN=",len(ppi_dict))
+#print (type(ppi_dict))
 """
 with open ("ppi_dict_temp.txt","w") as f:
     for ky, values in ppi_dict.items():
@@ -100,23 +103,21 @@ print ("Len (B)",len(keys_B))
 #here comes the big search. This is the longest step. Needs to be optimized.
 if os.path.exists("missing.txt"): os.remove("missing.txt")
 for idx_A in keys_A:
+    interactions_with_idx_A=[]
     print ("Processing idx_A: "+idx_A)
     #get the interacting proteins for this idx
     if ppi_dict.get(idx_A.split("/")[0])!=None:
         print ("HEre!@!@!@!@!@!@!@!@!@!@")
         #interactions_with_idx_A=ppi_dict[idx_A]
         interactions_with_idx_A=ppi_dict.get(idx_A.split("/")[0])
-    ##### Uncomment the following if we want to keep phylogeny-based integrated.
-        #interactions_with_idx_A.insert(0,idx_A.split("/")[0])
-        interactions_with_idx_A=list(set(interactions_with_idx_A))
+        interactions_with_idx_A.insert(0,idx_A.split("/")[0])
         #print (interactions_with_idx_A)
         print (idx_A+":"+str(ppi_dict[idx_A.split("/")[0]]))
     else:
-        ##### Uncomment the following if we want to keep phylogeny-based integrated. Commenbt out the continue
-        #interactions_with_idx_A.insert(0,idx_A.split("/")[0])
+        interactions_with_idx_A.insert(0,idx_A.split("/")[0])
         with open ("missing.txt","a+") as missing:
             missing.write(idx_A+"\n")
-        continue
+        #continue
     print (len(interactions_with_idx_A))
     for inner_idx_key_A in interactions_with_idx_A:
         for idx_B in keys_B:
@@ -131,8 +132,8 @@ with open (tmpdir+"pairs_AB.txt","w") as f:
     for pair in pairs_AB:
         f.write(pair[0]+","+pair[1]+"\n")
 
-for pair in pairs_AB:
-    with open (tmpdir+"pairs_AB.a3m","a+") as fa3m:
+with open (tmpdir+"pairs_AB.a3m","w") as fa3m:
+    for pair in pairs_AB:
         fa3m.write(">"+pair[0]+"_"+pair[1]+"\n")
         fa3m.write(dict_A[pair[0]].strip()+dict_B[pair[1]].strip()+"\n")
 

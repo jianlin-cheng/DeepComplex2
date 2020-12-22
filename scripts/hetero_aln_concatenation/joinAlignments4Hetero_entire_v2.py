@@ -52,7 +52,10 @@ missing_dir=outdir+"missing/"
 print ("Output will be stored in "+outdir)
 if not os.path.isdir(outdir): os.makedirs(outdir)
 if not os.path.isdir(missing_dir): os.makedirs(missing_dir)
+print ("Aln_folder: "+aln_folder)
+print ("List_file: "+list_file)
 #loading the ppi_dict can fail. This file is very big. So loading it only once is logical
+
 ppi_dict = np.load(ppi_file, allow_pickle='TRUE').item()
 
 
@@ -91,6 +94,7 @@ with open ("DoneFile.txt","w") as donefile:
             #here comes the big search. This is the longest step. Needs to be optimized.
             if os.path.exists(missing_dir+name_A+"_"+name_B+"_missing.txt"): os.remove(missing_dir+name_A+"_"+name_B+"_missing.txt")
             for idx_A in keys_A:
+                interactions_with_idx_A=[]
                 print ("Processing idx_A: "+idx_A)
                 #get the interacting proteins for this idx
                 if ppi_dict.get(idx_A.split("/")[0])!=None:
@@ -130,28 +134,9 @@ with open ("DoneFile.txt","w") as donefile:
             
             shutil.copy2(tmpdir+"pairs_AB.a3m",outdir+name_A+"_"+name_B+".a3m")
 
-#$#$#$#$#$#$#$            
-            """
-            for idx_A in keys_A:
-                #get the interacting proteins for this idx
-                interactions_with_idx_A=ppi_dict[idx_A]
-                for inner_idx_key_A in interactions_with_idx_A:
-                    if inner_idx_key_A in keys_B:
-                        pairs_AB.append([idx_A,inner_idx_key_A])
-                        
-            
-            with open (tmpdir+"pairs_AB.txt","w") as f:
-                for pair in pairs_AB:
-                    f.write(pair[0]+","+pair[1]+"\n")
-                    with open (tmpdir+"pairs_AB.a3m","w") as fa3m:
-                        fa3m.write(">"+pair[0]+"_"+pair[1]+"\n")
-                        fa3m.write(dict_A[pair[0]].strip()+dict_B[pair[1]].strip()+"\n")
-            
-            shutil.copy2(tmpdir+"pairs_AB.a3m",outdir+name_A+"_"+name_B+".a3m")
-            """
-            os.system("grep -v ^> "+outdir+name_A+"_"+name_B+".a3m"+" | sed 's/[a-z]//g' > "+outdir+name_A+"_"+name_B+".aln")
+            os.system("grep -v '^>' "+outdir+name_A+"_"+name_B+".a3m"+" | sed 's/[a-z]//g' > "+outdir+name_A+"_"+name_B+".aln")
         donefile.write(line)
-        os.system("rm -rf "+tmpdir)
+        #os.system("rm -rf "+tmpdir)
 
 #print ()
     
