@@ -152,9 +152,9 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/test_list.txt'
+test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_121220/test_list.txt'
 # recall just extract how many
-cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
@@ -165,30 +165,35 @@ for file in test_file_name:
     predict_cmap = cmap_dir + file + '_.rr.npy.txt'
     if os.path.isfile(predict_cmap):
         SAMPLE_SIZE=SAMPLE_SIZE+1
+        # if '__' in file:
+        #     print(file)
+        temp= file
+        if '__' in file:
+            temp = file.replace('__', '_')
 
-        # /home/rajroy/predict_cmap_200_hetero/1H3OB_1H3OC_3305_.rr.npy.txt'
-        real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
-        # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
-        pred_arr = getY(predict_cmap)
-        # processed cmap
-        name = os.path.basename(predict_cmap)
-        if '__' in name:
-            name=name.replace('__','_')
+        name_arrr = temp.split('_')
 
-        name_arrr = name.split('_')
-        if '__' in  os.path.basename(predict_cmap):
+
+        if '__' in os.path.basename(predict_cmap):
             len_b = len(fasta_dict.get(name_arrr[0]))
             len_a = len(fasta_dict.get(name_arrr[1]))
         else:
             len_a = len(fasta_dict.get(name_arrr[0]))
             len_b = len(fasta_dict.get(name_arrr[1]))
+    # /home/rajroy/predict_cmap_200_hetero/1H3OB_1H3OC_3305_.rr.npy.txt'
+        real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
+        # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
+        # pred_arr = getY(predict_cmap)
+        # processed cmap
+
+        # name_arrr = os.path.basename(predict_cmap).split('_')
+        # len_a = len(fasta_dict.get(name_arrr[0]))
+        # len_b = len(fasta_dict.get(name_arrr[1]))
         real_arr = getY(real_cmap)
         # total =math.sqrt(len_a*len_b)
         total = len_a + len_b
-        # total =( len_a+ len_b)/2
-        # rea_eval = np.where(real_arr == 1.0)
-        # total =   len(rea_eval[0])
-        new_pred_map = fix_pred_map(real_arr, len_a, len_b)
+        random_cmap = np.random.random((total, total))
+        new_pred_map = fix_pred_map(random_cmap, len_a, len_b)
         relax_0.append(calculateEvaluationStats(new_pred_map, real_arr, total))
 
         real_arr_1 = make_relax(real_arr, 1)
@@ -204,4 +209,3 @@ print(
 get_evaluation_result(relax_0,0,len(test_file_name))
 get_evaluation_result(relax_1,1,len(test_file_name))
 get_evaluation_result(relax_2,2,len(test_file_name))
-print(SAMPLE_SIZE)
