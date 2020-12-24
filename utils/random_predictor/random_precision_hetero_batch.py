@@ -68,6 +68,8 @@ def calculateEvaluationStats(_pred_cmap, _true_cmap, L):
     true_cmap=copy.deepcopy(_true_cmap)
     prec_T5, prec_T10, prec_T20, prec_T30, prec_T50, prec_L30, prec_L20, prec_L10, prec_L5, prec_L, prec_2L, con_num = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     max_Top = int((2*L ) + 0.5)
+    pred_eval = np.where(_true_cmap == 1.0)
+    number_contacts = len(pred_eval[0])
     if 50 > max_Top: max_Top = 50
 
     for i in range(1, max_Top + 1):
@@ -120,7 +122,7 @@ def calculateEvaluationStats(_pred_cmap, _true_cmap, L):
             if prec_2L > 100: prec_2L = 100
             print("L=", L, "Val=", i, "Con_num=", con_num)
 
-    return [prec_T5, prec_T10, prec_T20, prec_T30, prec_T50, prec_L30, prec_L20, prec_L10, prec_L5, prec_L, prec_2L]
+    return [prec_T5/number_contacts, prec_T10/number_contacts, prec_T20/number_contacts, prec_T30/number_contacts, prec_T50/number_contacts, prec_L30/number_contacts, prec_L20/number_contacts, prec_L10/number_contacts, prec_L5/number_contacts, prec_L/number_contacts, prec_2L/number_contacts]
 
 
 

@@ -1,6 +1,6 @@
 import copy
 import os
-
+#this is not used and might be deleted in the furue
 import numpy as np
 
 from utils.evalutaion.relaxed_cmaps import make_relax
@@ -71,10 +71,11 @@ def calcuate_recall(_pred, _true):
         index_Y = pred_eval[1][val]
         if _true[index_X][index_Y] == 1.0:
             true_positive = true_positive + 1
-    if true_positive >0:
+    if true_positive > 0:
         return 100 * true_positive / number_contacts
     else:
         return 0
+
 
 THRESHOLD = 0.15
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
@@ -82,24 +83,22 @@ test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_he
 # recall just extract how many
 cmap_dir = "/home/rajroy/predict_cmap_200_hetero/"
 test_file_name = file_reader(test_file)
-val_array= []
+val_array = []
 all_threshold_values = []
-for n in range(5,100,5):
-    THRESHOLD = n/100
+for n in range(5, 100, 5):
+    THRESHOLD = n / 100
     for file in test_file_name:
-        temp_relax_avalue_array=[]
-        predict_cmap = cmap_dir + file + '_.rr.npy.txt'
-        # /home/rajroy/predict_cmap_200_hetero/1H3OB_1H3OC_3305_.rr.npy.txt'
-        real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
-        # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
-        # pred_arr = getY(predict_cmap)
-        # processed cmap
+        temp_relax_avalue_array = []
 
+        predict_cmap = cmap_dir + file + '_.rr.npy.txt'
+        real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
 
         name_arrr = os.path.basename(predict_cmap).split('_')
+
         len_a = len(fasta_dict.get(name_arrr[0]))
         len_b = len(fasta_dict.get(name_arrr[1]))
-        total=len_b+len_a
+        total = len_b + len_a
+
         real_arr = getY(real_cmap)
         random_cmap = np.random.random((total, total))
         new_pred_map = fix_pred_map(random_cmap, len_a, len_b)
@@ -111,20 +110,20 @@ for n in range(5,100,5):
         temp_relax_avalue_array.append(calcuate_recall(new_pred_map, real_arr_2))
         val_array.append(temp_relax_avalue_array)
 
-    sum_relax_0=0
-    sum_relax_1=0
-    sum_relax_2=0
+    sum_relax_0 = 0
+    sum_relax_1 = 0
+    sum_relax_2 = 0
     for values in val_array:
-        sum_relax_0+=values[0]
+        sum_relax_0 += values[0]
         sum_relax_1 += values[1]
         sum_relax_2 += values[2]
-        # print('relax 0 '+str(values[0]) +' relax 1 '+str(values[1])+' relax 2 '+str(values[2])+'\n')
 
-    temp_all_threshold_values=  [THRESHOLD,sum_relax_0/len(val_array),sum_relax_1/len(val_array),sum_relax_2/len(val_array)]
+
+    temp_all_threshold_values = [THRESHOLD, sum_relax_0 / len(val_array), sum_relax_1 / len(val_array),
+                                 sum_relax_2 / len(val_array)]
     all_threshold_values.append(temp_all_threshold_values)
-    # print('AVERAGE'+'\n')
-    # print(str(sum_relax_0/len(val_array))+' '+str(sum_relax_1/len(val_array))+' '+str(sum_relax_2/len(val_array)))
 
-print('THRESHOLD'+'\t\t'+'  RELAX 0  '+'\t\t'+'  RELAX 1  '+'\t\t'+'  RELAX 2  '+'\t\t')
+
+print('THRESHOLD' + '\t\t' + '  RELAX 0  ' + '\t\t' + '  RELAX 1  ' + '\t\t' + '  RELAX 2  ' + '\t\t')
 for values in all_threshold_values:
-    print(str(values[0])+'\t\t'+str(values[1])+'\t\t'+str(values[2])+'\t\t'+str(values[3])+'\t\t')
+    print(str(values[0]) + '\t\t' + str(values[1]) + '\t\t' + str(values[2]) + '\t\t' + str(values[3]) + '\t\t')
