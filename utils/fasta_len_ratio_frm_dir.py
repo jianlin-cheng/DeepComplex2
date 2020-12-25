@@ -61,7 +61,7 @@ def loadFastaDictionary(dict_file):
 fasta_dir = "/home/rajroy/Downloads/fasta_dictionary.txt"
 fasta_dict = loadFastaDictionary(fasta_dir)
 
-dir_name = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/new_feature_200/'
+dir_name = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/ALIGNMENT_HETERO_30/OUTPUT/LEWIS/a3m_400_more/only_400_a3m_features/'
 # dir_name=sys.argv[1]
 # name = sys.argv[2]
 string_len_list = ''
@@ -85,8 +85,8 @@ for dir in dir_names:
         counter=counter+1
     else:
         ###len list
-        # string_len_list=string_len_list+final_name+'\t'+str(len(fasta_a)+len(fasta_b))+"\n"
+        string_len_list=string_len_list+final_name+'\t'+str(len(fasta_a)+len(fasta_b))+"\n"
         ###list
-        string_len_list=string_len_list+final_name+ "\n"
+        # string_len_list=string_len_list+final_name+ "\n"
 print(counter)
 write2file('/home/rajroy/all_list.txt',string_len_list)

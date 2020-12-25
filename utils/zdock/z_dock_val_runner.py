@@ -11,13 +11,15 @@ def single_fasta_file_reader(_seq_file):
     final_array = []
     for value in output_array:
         temp = []
+        if '__' in value:
+            value=value.replace('__','_')
         val_a = value.replace('.atom', '')
-        temp.append(val_a.split(',')[0])
-        temp.append(val_a.split(',')[1])
+        temp.append(val_a.split('_')[0])
+        temp.append(val_a.split('_')[1])
         final_array.append(temp)
 
     return final_array
-val_list_file = '/home/rajroy/paired_val_371_500.txt'
+val_list_file = '//home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400_24_12_20/test_list.txt'
 val_pdb_file = '/home/rajroy/atom_files_370_500_val/'
 val_out_file = '/home/rajroy/out_dock/val/'
 val_pdb_list = single_fasta_file_reader(val_list_file)

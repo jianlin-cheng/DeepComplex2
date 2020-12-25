@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def single_fasta_file_reader(_seq_file):
@@ -10,11 +11,12 @@ def single_fasta_file_reader(_seq_file):
     final_array = []
     for value in output_array:
         temp = []
+        if '__' in value:
+            value=value.replace('__','_')
         val_a = value.replace('.atom', '')
-        temp.append(val_a.split(',')[0])
-        temp.append(val_a.split(',')[1])
+        temp.append(val_a.split('_')[0])
+        temp.append(val_a.split('_')[1])
         final_array.append(temp)
-
     return final_array
 
 
@@ -32,9 +34,10 @@ def specific_filename_reader(_input_dir, _extension):
 
 z_dir = '/home/rajroy/Downloads/zdock3.0.2_linux_x64/'
 
-test_list_file = '/home/rajroy/paired_test_371_500.txt'
-test_pdb_file = '/home/rajroy/atom_files_370_500_test/'
-test_out_file = '/home/rajroy/out_dock/test/'
+# test_list_file =  '//home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400_24_12_20/test_list.txt'
+test_list_file =  sys.argv[1]
+test_pdb_file = '/home/rajroy/pdb_test_400/'
+test_out_file = '/home/rajroy/400_zdock_out/val/'
 
 
 test_pdb_list = single_fasta_file_reader(test_list_file)
@@ -45,11 +48,12 @@ counter_test = 0
 for t in test_pdb_list:
     name = t[0][0:4]
     both_name = t[0] + '_' + t[1]
-    z_file = test_out_file + '/files/' + name + '.out'
+    z_file = test_out_file + '/files/' + both_name + '.out'
     file_a = test_pdb_file + '/' + t[0] + '.atom'
     file_b = test_pdb_file + '/' + t[1] + '.atom'
 
     z_cmd = z_dir + '/zdock -R ' + file_a + ' -L ' + file_b + ' -N 5 -o ' + z_file
+
     if not os.path.exists(z_file):
         val_out = os.system(z_cmd)
 
@@ -58,7 +62,8 @@ for t in test_pdb_list:
         print(create_cmd)
 
         os.system(create_cmd)
-        target_pdb_file = test_out_file + '/' + 'pdbs/' + both_name
+        pdb_dir= test_out_file + '/' + 'pdbs/'
+        target_pdb_file = pdb_dir + both_name
         os.system('mkdir -p ' + target_pdb_file)
         os.system('mv *.pdb ' + target_pdb_file)
         counter_test = counter_test + 1
