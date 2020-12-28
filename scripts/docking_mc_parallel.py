@@ -31,6 +31,7 @@ init()
 
 working_dir = os.getcwd()
 
+
 def add_cst(pose, resi, resj, lb, up):
     res_i = pose.pdb_info().pdb2pose('A', res=resi)
 
@@ -53,7 +54,38 @@ def add_cst(pose, resi, resj, lb, up):
         return False
 
 
+def add_dist(pose, res_i, res_j):
+    if res_i != 0 and res_j != 0:
+
+        atm_i = 'CA' if pose.residue(res_i).name()[0:3] == 'GLY' else 'CB'
+        atm_j = 'CA' if pose.residue(res_j).name()[0:3] == 'GLY' else 'CB'
+
+        xyz_i = pose.residue(res_i).xyz(atm_i)
+        xyz_j = pose.residue(res_j).xyz(atm_j)
+
+        dist = (xyz_i - xyz_j).norm()
+
+        return dist
+    else:
+        return False
+
+
+def detect_diameter(pose):
+    import numpy as np
+
+    total = pose.total_residue()
+    distances = []
+
+    for i in range(1, total + 1):
+        for j in range(1, total + 1):
+            dist = add_dist(pose, i, j)
+            distances.append(dist)
+
+    return max(distances)
+
+
 def add_cons_to_pose(pose, res_file):
+    protein_diameter = detect_diameter(pose)
     filename = res_file
     with open(filename) as f:
         content = f.readlines()
@@ -67,9 +99,15 @@ def add_cons_to_pose(pose, res_file):
         res_y = int(data[1])
         lb = float(data[2])
         up = float(data[3])
+        probability = float(data[4])
 
-        if add_cst(pose, res_x, res_y, lb, up) is not False:
-            cons.append(add_cst(pose, res_x, res_y, lb, up))
+        if probability > 0.5:
+            if add_cst(pose, res_x, res_y, lb, up) is not False:
+                cons.append(add_cst(pose, res_x, res_y, lb, up))
+
+        else:
+            if add_cst(pose, res_x, res_y, up, protein_diameter) is not False:
+                cons.append(add_cst(pose, res_x, res_y, up, protein_diameter))
 
     cl = pyrosetta.rosetta.utility.vector1_std_shared_ptr_const_core_scoring_constraints_Constraint_t()
     cl.extend(cons)
@@ -79,7 +117,6 @@ def add_cons_to_pose(pose, res_file):
 
     setup_cons = pyrosetta.rosetta.protocols.constraint_movers.ConstraintSetMover()
     setup_cons.constraint_set(cs)
-
     setup_cons.apply(pose)
 
 
@@ -120,7 +157,7 @@ def do_dock_MC(pdb_file, res_file, OUT):
     dock_hires.set_scorefxn_pack(scorefxn)
     dock_hires.set_partners('A_B')
 
-    jd = PyJobDistributor(target_id, 5, scorefxn)
+    jd = PyJobDistributor(target_id, 20, scorefxn)
     temp_pose = Pose()
     temp_pose.assign(pose)
     jd.native_pose = temp_pose
@@ -180,16 +217,16 @@ def do_dock_MC(pdb_file, res_file, OUT):
 
     print(generated_output[score_results.index(min(score_results))])
 
-    pdb_name = generated_output[score_results.index(min(score_results))][2:12]
+    pdb_name = generated_output[score_results.index(min(score_results))][2:-1]
 
     target = pdb_name.split('_')[0]
     best_pdb = working_dir +'/' + pdb_name
     cmd = "cp " + best_pdb + " " + OUT + "/" + target + "_MC.pdb"
     os.system(cmd)
-    cmd = 'rm -rf ' + working_dir +'/' + '*.pdb'
-    os.system(cmd)
-    cmd = 'rm -rf ' + working_dir +'/' + '*.fasc'
-    os.system(cmd)
+    #cmd = 'rm -rf ' + working_dir +'/' + '*.pdb'
+    #os.system(cmd)
+    #cmd = 'rm -rf ' + working_dir +'/' + '*.fasc'
+    #os.system(cmd)
 
 
-do_dock_MC(pdb_path, res_path, '/storage/hpc/data/esdft/predicted_MC/')
+do_dock_MC(pdb_path, res_path, OUT)
