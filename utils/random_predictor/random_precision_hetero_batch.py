@@ -5,7 +5,7 @@ import os
 import numpy as np
 
 from utils.evalutaion.relaxed_cmaps import make_relax
-
+### calculates precision with a random contact map
 
 def file_reader(_input):
     content_arry = []

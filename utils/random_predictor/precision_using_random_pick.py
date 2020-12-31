@@ -7,6 +7,8 @@ import random
 from utils.evalutaion.relaxed_cmaps import make_relax
 
 
+# calculates precision using random pick mechanism
+
 def random_pair_getter(_previous, _len_a, _len_b):
     while True:
         x = random.randrange(_len_a + _len_b - 1, _len_a - 1, -1)
@@ -79,7 +81,7 @@ def calculateEvaluationStats(_true_cmap, _len_a, _len_b):
     if 50 > max_Top: max_Top = 50
 
     for i in range(1, max_Top + 1):
-        #method to make sure a valid cell in selected
+        # method to make sure a valid cell in selected
         x, y = random_pair_getter(previous_values, _len_a, _len_b)
         previous_values.append(str(_len_a) + '_' + str(_len_b))
 
@@ -174,9 +176,9 @@ test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
 SAMPLE_SIZE = 0
-hist_=[]
-TIMES=10
-for i in range(0,TIMES):
+hist_ = []
+TIMES = 10
+for i in range(0, TIMES):
 
     for file in test_file_name:
         predict_cmap = cmap_dir + file + '_.rr.npy.txt'
@@ -196,7 +198,7 @@ for i in range(0,TIMES):
                 len_b = len(fasta_dict.get(name_arrr[1]))
 
             real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
-            #symmetry is being removed form the true map
+            # symmetry is being removed form the true map
             real_arr = fix_pred_map(getY(real_cmap), len_a, len_b)
             # total =math.sqrt(len_a*len_b)
             total = len_a + len_b
@@ -208,7 +210,7 @@ for i in range(0,TIMES):
 
             real_arr_2 = make_relax(real_arr, 2)
             relax_2.append(calculateEvaluationStats(real_arr_2, len_a, len_b))
-            hist_.append([relax_0,relax_1,relax_2])
+            hist_.append([relax_0, relax_1, relax_2])
 print(
     'RELAX ' + '\t\t\t' + 'TOP-5' + '\t\t\t' + 'TOP-10' + '\t\t\t' + 'TOP-20' + '\t\t\t' + 'TOP-30' + '\t\t\t' + 'TOP-50' + '\t\t\t' + 'L/30' + '\t\t\t' + 'L/20' + '\t\t\t' + 'L/10' +
     '\t\t\t' + 'L/5' + '\t\t\t' + 'L/' + '\t\t\t' + '2L/')
@@ -216,6 +218,6 @@ print(
 # prec_T5_1, prec_T10_1, prec_T20_1, prec_T30_1, prec_T50_1, prec_L30_1, prec_L20_1, prec_L10_1, prec_L5_1, prec_L_1, prec_2L_1=0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0
 # prec_T5_2, prec_T10_2, prec_T20_2, prec_T30_2, prec_T50_2, prec_L30_2, prec_L20_2, prec_L10_2, prec_L5_2, prec_L_2, prec_2L_2=0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0
 
-get_evaluation_result(relax_0, 0,TIMES* len(test_file_name))
-get_evaluation_result(relax_1, 1, TIMES*len(test_file_name))
-get_evaluation_result(relax_2, 2, TIMES*len(test_file_name))
+get_evaluation_result(relax_0, 0, TIMES * len(test_file_name))
+get_evaluation_result(relax_1, 1, TIMES * len(test_file_name))
+get_evaluation_result(relax_2, 2, TIMES * len(test_file_name))

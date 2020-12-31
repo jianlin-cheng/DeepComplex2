@@ -3,7 +3,7 @@ import os
 import random
 
 import numpy as np
-
+#simple program to make a random contact map
 
 def filter_dist_array(_dist, i_adder, j_adder):
     original = copy.deepcopy(_dist)

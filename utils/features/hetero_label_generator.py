@@ -2,7 +2,7 @@ import copy
 import os
 
 import numpy as np
-
+## outputs level L*L where L is the combined length
 
 def filter_dist_array(_dist, i_adder, j_adder):
     original = copy.deepcopy(_dist)

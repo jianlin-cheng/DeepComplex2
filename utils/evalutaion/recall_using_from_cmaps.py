@@ -5,8 +5,16 @@ import os
 import numpy as np
 
 from utils.evalutaion.relaxed_cmaps import make_relax
+# # NOTE
+## This basically takes 2 contact maps as input and uses them to find the recall
+## converts the real one into relax map of 0,1,2
+### *For Relax 0,1 and 2 only the true contact map was taken into consideration not the relaxed maps to identify the false negative
 
-#random pick was used
+####### Recall = true_positive /(true_positve +false negative)
+#####  E.g For calculating recall of top-5 for a protein of 10 true contacts, if we predict 3 contacts successfully, then
+#### True positive  = 3
+#### False negative = 10-3 = 7 , as 7 true contacts were not predicted correctly
+#### Recall = 3/ (3 +7 ) =0.3
 def file_reader(_input):
     content_arry = []
     f = open(_input, "r")

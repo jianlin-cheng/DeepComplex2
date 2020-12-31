@@ -5,6 +5,12 @@ import numpy as np
 
 from utils.evalutaion.relaxed_cmaps import make_relax
 
+# # NOTE
+## This basically takes 2 contact maps as input and uses them to find the recall
+## converts the real one into relax map of 0,1,2
+#######  Threshold was used
+###### this needs to be fixed
+# ### Recall formula is wrong
 
 def file_reader(_input):
     content_arry = []

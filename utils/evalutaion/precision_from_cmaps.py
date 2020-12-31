@@ -6,6 +6,10 @@ import numpy as np
 
 from utils.evalutaion.relaxed_cmaps import make_relax
 
+# # NOTE
+## This basically takes 2 contact maps as input and uses them to find the precision
+## converts the real one into relax map of 0,1,2
+##compares them and usese out legacy code to calculate the values
 
 def file_reader(_input):
     content_arry = []
@@ -154,7 +158,7 @@ relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
 test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/test_list.txt'
 # recall just extract how many
-cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+cmap_dir = "/home/rajroy/400_zdock_out/cmaps/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
@@ -162,7 +166,9 @@ all_threshold_values = []
 # THRESHOLD = n/100
 SAMPLE_SIZE=0
 for file in test_file_name:
-    predict_cmap = cmap_dir + file + '_.rr.npy.txt'
+    name = file.split('_')
+    # predict_cmap = cmap_dir + file + '_.rr.npy.txt'
+    predict_cmap = cmap_dir + name[0]+'_'+name[1] + '.txt'
     if os.path.isfile(predict_cmap):
         SAMPLE_SIZE=SAMPLE_SIZE+1
 
@@ -171,7 +177,7 @@ for file in test_file_name:
         # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
         pred_arr = getY(predict_cmap)
         # processed cmap
-        name = os.path.basename(predict_cmap)
+        name = os.path.basename(predict_cmap).replace('.txt','')
         if '__' in name:
             name=name.replace('__','_')
 

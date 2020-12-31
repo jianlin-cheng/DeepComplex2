@@ -7,7 +7,7 @@ import random
 
 from utils.evalutaion.relaxed_cmaps import make_relax
 
-
+#this one uses random pick
 def random_pair_getter(_previous, _len_a, _len_b):
     while True:
         x = random.randrange(_len_a + _len_b - 1, _len_a - 1, -1)
