@@ -194,7 +194,7 @@ for file in test_file_name:
         # total =( len_a+ len_b)/2
         # rea_eval = np.where(real_arr == 1.0)
         # total =   len(rea_eval[0])
-        new_pred_map = fix_pred_map(real_arr, len_a, len_b)
+        new_pred_map = fix_pred_map(pred_arr, len_a, len_b)
         relax_0.append(calculateEvaluationStats(new_pred_map, real_arr, total))
 
         real_arr_1 = make_relax(real_arr, 1)
