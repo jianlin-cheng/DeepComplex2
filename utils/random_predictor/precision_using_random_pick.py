@@ -83,7 +83,7 @@ def calculateEvaluationStats(_true_cmap, _len_a, _len_b):
     for i in range(1, max_Top + 1):
         # method to make sure a valid cell in selected
         x, y = random_pair_getter(previous_values, _len_a, _len_b)
-        previous_values.append(str(_len_a) + '_' + str(_len_b))
+        previous_values.append(str(x) + '_' + str(y))
 
         if true_cmap[x][y] == 1:
             con_num += 1
@@ -169,9 +169,14 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_121220/test_list.txt'
-# recall just extract how many
-cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
+test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/test_list.txt'
+# # recall just extract how many
+# cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
+
+
+# test_file = '/home/rajroy/400_run/test_list.txt'
+
+cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
