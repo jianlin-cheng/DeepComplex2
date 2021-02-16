@@ -1,0 +1,54 @@
+HOMO_STD dataset:
+
+Server: Lewis
+	Comments: These lists are a subset that we selected since creating all the features were not possible within this short time.
+	Location of lists: /storage/htc/bdm/farhan/DNCON2_features_homodimers/homo_std_lists/selected/
+	Location of all fastas: /storage/htc/bdm/farhan/DNCON2_features_homodimers/fastas
+	DNCON2_output: /storage/htc/bdm/farhan/HomopolymerProject/HomopolymerProject/data/homodimer/dncon2output
+        Location dncon2 features: /storage/htc/bdm/farhan/DNCON2_features_homodimers/feat
+        Location dncon2 stage2 features: /storage/htc/bdm/farhan/DNCON2_features_homodimers/feat_stage2
+
+	All dataset lists: /storage/htc/bdm/farhan/DNCON2_features_homodimers/homo_std_lists
+	Location of all fastas: /storage/htc/bdm/farhan/DNCON2_features_homodimers/fastas
+	Location of all labels: /storage/htc/bdm/farhan/DNCON2_features_homodimers/Y-Labels
+
+
+We selected homodimeric pairs based on the criterion that if the sequence identity between the interacting protein pairs is >=95%, we classify them as homodimers, else we say they are heterodimers.
+The homodimer protein pairs whose sequence identity is 100% we term them as perfect homodimers, the rest are called homodimers 95
+Inorder to homogenize the homodimeric pdb chains so they have the same sequence, the homodimer 95 sequences and individual chain files were reindexed to remove mismatching residue information.
+
+HOMO30 dataset:
+
+Comments: These lists again are a subset that we selected since creating all the features were not possible within this short time. Out of 10978 only 2948 were generated
+	  For labels, we selected the homodimeric pairs with the highest number of contacts.
+
+Server: MULTICOM
+	Comments: the feat or feat_stage2 folders has all the 56 or 61 features used by DNCON2 as .txt files
+	Location: /data/commons/DeepComplex_common/datasets/homo30_dncon2_features/homo30
+	All 10978 fastas: /data/commons/DeepComplex_common/datasets/homo30_dncon2_features/homo30/fastas 
+	Location of lists: /data/commons/DeepComplex_common/datasets/homo30_dncon2_features/homo30/training_lists
+	Location of Labels: /data/commons/DeepComplex_common/datasets/homo30_dncon2_features/homo30/Y-Labels
+	True contact files and folders: /data/commons/DeepComplex_common/datasets/homo30_dncon2_features/homo30/contacts
+
+Comments: Lewis was used to generate the DNCON2 features for the selected 2948 proteins. The following is the location. 
+Server: Lewis
+	DNCON2_output: /storage/htc/bdm/farhan/DNCON2_features_homodimers/homo30/dncon2_output
+
+
+STRINGS_DB: 
+https://string-db.org/cgi/download?sessionId=bUotVPoVfxEw
+
+Everything is in lewis: /storage/htc/bdm/farhan/strind_db/
+
+Known protein-protein interactions: binding_file.txt
+We need the first two columns of this file only which is: binding_file_2_cols.txt
+This was then sorted: sorted_binding_file.txt
+
+All the monomer fasta sequences: protein.info.sequences.v11.0.fa
+The monomer fasta dictionary: string_sequence_fasta_dictionary.txt
+All the concatenated dimer sequences from the binding_file.txt [NOTE THIS FILE IS BIG]: /storage/htc/bdm/farhan/string_db/combined_strings_db/filter_combo/all_sequences.txt
+This file has symmetric concatenation: fastaA+fastaB and fastaB+fastaA both
+
+
+
+

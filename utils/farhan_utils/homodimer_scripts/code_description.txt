@@ -1,0 +1,58 @@
+cleanUpPDB.py: This script uses the multicom toolbox to clean up the pdbs. It creates the .atom, .seq, .dssp, etc files. It also does post cleanup cleanups
+Usage: python cleanUpPDB.py <option.txt>
+
+createFastaDB.py: this script reads the .seq files and creates a fasta list. [HARD PATHS]
+Usage: python createFastaDB.py
+
+createFastaDictionary.py: this script reads the .seq files and creates a fasta dictionary called "fasta_dictionary.txt"
+Usage: python createFastaDictionary.py <.seq folder> 
+
+createFastaFilesFromFastaDictionary.py: this script reads a fasta_dictionary.txt files to generate the individual fasta files and outputs them into a folder
+Usage: python createFastaFilesFromFastaDictionary.py <fasta_dictionary.txt> <outputfolder>
+
+createFastaDictionaryFromFolder.py: this script reads the folder of fastafiles and creates a fasta dictionary
+Usage: python createFastaDictionaryFromFolder.py <fasta_folder> <output_file>
+
+createFastaLength.py: this script reads the fasta_dictionary.txt file and creates a database/dictionary of PDB_Name and lengths [HARD PATHS]
+Usage: python createFastaLength.py
+
+dist2rr.py: this script reads a distance.txt file and converts to sorted contact map file in .rr format using hypothetical probability p=(1/d)+0.5
+Usage: python dist2rr.py <input_dist_file> <outputfile>
+
+getPrecision_inter_twocmaps.py: this script will calculate the precision by comparing two rr files. according to the requirement like Top-5, Top-10, etc.
+Usage: python getPrecision_inter_twocmaps.py <rr_file_inter_true> <rr_file_predicted>
+
+getPrecision_intra.py: this script will calculate the intrachain precision by comparing two rr files. according to the requirement like Top-5, Top-10, etc.
+Usage: python getPrecision_intra.py <true.rr> <predicted.rr>
+
+loadFastaDictionary.py: this script loads the fasta_dictionary.txt file into a dictionary. 
+Usage: from loadFastaDictionary import loadFastaDictionary
+
+makePDBListAllFiles.py: this script creates a file list from a directory of .atom or .pdb or .seq, etc files
+
+makePDBList.py: this script creates a pdb "name" list from a directory of .atom or .pdb or .seq, etc files
+
+makeSymmetry.py: this script will read the contact map .rr file and convert it to a symmetric matrix
+Usage: python makeSymmetry.py <input_file> <output_file>
+
+
+pdb2distance_inter_heavy.py: this script creates a interchain distance map and a contact map text file using heavy atoms [HARD PATHS for atom_folder and fasta_dictionary]
+Usage: python pdb2distance_inter_heavy.py <atom_file_A> <atom_file_B> <distance_threshold> <outfile>
+
+readPDBColumns.py: PDB reading and processing library
+readPDBColumns_v2.py: PDB reading and processing library
+
+readPDB.py: PDB reading and processing library
+readRR.py: Contact map reading and processing library
+
+reindex.py: this script will reindex the residue numbers in the pdb/atom file according to a mapping function
+Usage: python reindex.py <input_atomfile> <reindex_mapping_dictionary> <output>
+
+removeAlternatesFromPDB.py: this script filter outs alternate B residues from pdbs like BCYS and keeps the ACYS as CYS
+Usage: python removeAlternatesFromPDB.py <in_pdb> <output_pdb>
+
+sequenceAlign.py: this script aligns two fasta sequences and outputs the final alignment.
+Usage: python sequenceAlign.py <id_pdb1> <fasta1> <id_pdb2> <fasta2>
+
+sortrr.py: sorts an contact mapn rr file and prints its contents
+Usage: python sortrr.py <contact_map_file.rr> <reverse=True (high prob to low) or False> 
