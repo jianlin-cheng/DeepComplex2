@@ -1,1 +1,0 @@
-./rand_precision_outputs/11AS_inter_prec.txt

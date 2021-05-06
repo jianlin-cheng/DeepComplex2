@@ -1,1 +1,0 @@
-cp jhm-e-0.aln 3LUTA_3LUTB.aln
