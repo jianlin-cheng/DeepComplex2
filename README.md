@@ -1,5 +1,5 @@
 # DeepComplex2
-A gradient descent based approach to generate complex structures using inter chain residue-residue contacts
+Distance-based methods to generate complex structures using inter chain residue-residue contacts
 
 **(1) Download the code (short path is recommended)**
 
