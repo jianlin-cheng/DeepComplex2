@@ -22,7 +22,7 @@ git clone git@github.com:jianlin-cheng/DeepComplex2.git
    $ sh scripts/run_dock_gd.sh 1D3Y  /data/esdft/initial_starts/1D3Y_modified.pdb  /data/esdft/restraints/1D3Y_AB.rr  /data/esdft/output  /data/esdft/weight_files/talaris2013.wts
 ``` 
 
-**(3) Run the code for generating protein complexes using Markov chain Monte Carlo**
+**(4) Run the code for generating protein complexes using Markov chain Monte Carlo**
 
 ```
    Usage:
