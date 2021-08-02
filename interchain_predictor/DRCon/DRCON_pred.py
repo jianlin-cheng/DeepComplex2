@@ -21,7 +21,7 @@ import math
 import sys
 
 # READ ALL THESE FROM A FILE
-import rough_copy
+import resnet_model
 import torch.optim as optim
 
 model_path = sys.argv[1]
@@ -335,7 +335,7 @@ def getY(true_file):
 
 
 len_prot = 600
-model = rough_copy.ResNet_custom(img_channel=FEATURES, num_classes=len_prot * len_prot, _depth=RESNET_DEPTH)
+model = resnet_model.ResNet_custom(img_channel=FEATURES, num_classes=len_prot * len_prot, _depth=RESNET_DEPTH)
 print("VALIDATIOn AREA ")
 # len_prot = data['sequence_length']
 # model = rough_copy.ResNet_custom(img_channel=FEATURES, num_classes=len_prot * len_prot, _depth=RESNET_DEPTH)
