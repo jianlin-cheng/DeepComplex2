@@ -158,8 +158,8 @@ def fix_pred_map (_input):
 
     len = _input.shape[0]
     out = np.zeros((len, len))
-    for i in range(len-1):
-        for j in range(len - 1):
+    for i in range(len):
+        for j in range(len):
             out[i][j] =float( (_input[i][j]+_input[j][i]))/2
             out[j][i] = float((_input[i][j] + _input[j][i])) / 2
     return  out
