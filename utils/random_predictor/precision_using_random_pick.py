@@ -169,14 +169,14 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/test_list.txt'
+test_file = '//home/rajroy/het_30_tr_roseeta_data_dncon2_dist/train_list_0116221/test_list.txt'
 # # recall just extract how many
 # cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
 
 
 # test_file = '/home/rajroy/400_run/test_list.txt'
 
-cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+cmap_dir = "/home/rajroy/cmap_predict_400_hetero_f_582/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []

@@ -175,29 +175,45 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/test_list.txt'
-# test_file = '/home/rajroy/400_run/test_list.txt'
+# test_file = '//home/rajroy/het_30_tr_roseeta_data_dncon2_dist/train_list_0116221/test_list.txt'
+# test_file = '/home/rajroy/deeplearning_codes/het_30_tr_roseeta_data_dncon2_divi_feature/training_list_het_121220/test_list.txt'
+# test_file = '/home/rajroy/deeplearning_codes/het_30_tr_roseeta_data_dncon2_divi_feature/training_list_het_121220/test_list.txt'
+test_file = '/home/rajroy/deeplearning_codes/het_30_tr_roseeta_data_dncon2_dist/train_list_0116221/test_list.txt'
 # recall just extract how many
-# cmap_dir = "/home/rajroy/400_new_het_24/"
-cmap_dir="/home/rajroy/cmap_predict_400_hetero/"
+# cmap_dir = "/home/rajroy/test/cmap_divi_feature_583_l_200/"
+# cmap_dir="/home/rajroy/q3_het30/some/"
+cmap_dir="/home/rajroy/cmap_predict_400_hetero_f_582/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
 
-report = 1
+report =1
 # for n in range(5,100,5):
 # THRESHOLD = n/100
 SAMPLE_SIZE=0
 for file in test_file_name:
     name = file.split('_')
+    ##for distsss
     # predict_cmap = cmap_dir + file + '_.rr.npy.txt'
-    predict_cmap = cmap_dir + name[0]+'_'+name[1] + '.txt'
+    # predict_cmap = cmap_dir + name[0]+'_'+name[1] + '.txt'
+    ## for zdock
+    # predict_cmap = cmap_dir + name[0]+'_'+name[1] + '.txt'
+
+    ## for contacts
+    predict_cmap = cmap_dir + name[0]+'_'+name[1] +'_'+str(name[2])+ '_.rr.npy.txt'
     if os.path.isfile(predict_cmap):
         SAMPLE_SIZE=SAMPLE_SIZE+1
 
         # /home/rajroy/predict_cmap_200_hetero/1H3OB_1H3OC_3305_.rr.npy.txt'
+        ## for contacts
         real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
+
+        ##for distsss
+        # real_cmap = cmap_dir  + file + '.txt.npy.txt'
         # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
+
+        if not os.path.exists(real_cmap):
+            continue
         pred_arr = getY(predict_cmap)
         # processed cmap
         name = os.path.basename(predict_cmap).replace('.txt','')
@@ -230,9 +246,13 @@ for file in test_file_name:
 print(
     'RELAX ' + '\t\t\t' + 'TOP-5' + '\t\t\t' + 'TOP-10' + '\t\t\t' + 'TOP-20' + '\t\t\t' + 'TOP-30' + '\t\t\t' + 'TOP-50' + '\t\t\t' + 'L/30' + '\t\t\t' + 'L/20' + '\t\t\t' + 'L/10' +
     '\t\t\t' + 'L/5' + '\t\t\t' + 'L/' + '\t\t\t' + '2L/')
-relax_data_0=get_evaluation_result(relax_0,0,len(test_file_name))
-relax_data_1=get_evaluation_result(relax_1,1,len(test_file_name))
-relax_data_2=get_evaluation_result(relax_2,2,len(test_file_name))
+# relax_data_0=get_evaluation_result(relax_0,0,len(test_file_name))
+# relax_data_1=get_evaluation_result(relax_1,1,len(test_file_name))
+# relax_data_2=get_evaluation_result(relax_2,2,len(test_file_name))
+
+relax_data_0=get_evaluation_result(relax_0,0,SAMPLE_SIZE)
+relax_data_1=get_evaluation_result(relax_1,1,SAMPLE_SIZE)
+relax_data_2=get_evaluation_result(relax_2,2,SAMPLE_SIZE)
 print(SAMPLE_SIZE)
 
 
@@ -255,7 +275,7 @@ def report_individual_target(_data_array,_file_name):
 if report == 1:
 
     output_dir = '/home/rajroy/'
-    FILE_NAME = "22122020_400"
+    FILE_NAME = "het_30_578_feature_l_400_last_milstone_020121"
     report_individual_target(relax_data_0,output_dir+FILE_NAME+'_relax_0')
     report_individual_target(relax_data_1, output_dir + FILE_NAME + '_relax_1')
     report_individual_target(relax_data_2, output_dir + FILE_NAME + '_relax_2')

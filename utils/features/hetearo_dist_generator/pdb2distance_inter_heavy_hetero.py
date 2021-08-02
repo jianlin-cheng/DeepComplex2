@@ -171,7 +171,7 @@ if (len(pw_dist)==0):
     os.system("echo "+pdb+" "+": No interchain contacts less than "+dist+" ... >> not_done_reason_heavy.txt")
     sys.exit("-2")
 
-outfile_dist=outfile.replace(".txt","")+"_dist_"+chain_1+chain_2+".txt"
+outfile_dist=outfile.replace(".txt","")+"_dist_"+".txt"
 outfile=outfile+"_"+chain_1+chain_2+".txt"
 
 write_flag=True

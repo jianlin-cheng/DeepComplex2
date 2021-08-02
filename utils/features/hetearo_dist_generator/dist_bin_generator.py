@@ -2,6 +2,8 @@ import copy
 import os
 
 import numpy as np
+
+
 ## outputs level L*L where L is the combined length
 
 def filter_dist_array(_dist, i_adder, j_adder):
@@ -99,56 +101,72 @@ def specific_dir_reader(_input_dir):
     return file_names[0]
 
 
+def get_bin_val(_input):
+    input_val = float(_input)
+    bin_array = np.zeros(37)
+    if float(input_val) > 6 or float(input_val) == 0:
+        bin_array[0] = 1
+    if float(input_val) == 0:
+        return bin_array
+    if float(input_val) >= 19.5:
+        bin_array[36] = 1
+        return bin_array
+    if float(input_val) < 2.5:
+        bin_array[1] = 1
+    elif float(input_val) == 6.0:
+        #forciing it to be in the 8th bin
+        bin_array[8] = 1
+    else:
+        #
+        temp_index = int((input_val / 0.5)) - 4 + 2 - 1
+        bin_array[temp_index] = 1
+    return bin_array
+
+
 def label_formatter(_arr, _len):
-    formatted_array = np.zeros((_len, _len))
+    formatted_array = np.zeros((_len, _len, 37))
     for val in _arr:
-        formatted_array[val[0] - 1][int(val[1] - 1)] = 1
-        formatted_array[int(val[1] - 1)][val[0] - 1] = 1
-    out_string = ''
-    for values in formatted_array:
-        one_row = ''
-        for d in values:
-            one_row = one_row + str(d) + str(' ')
-        out_string = out_string + one_row + '\n'
-    return out_string
+        bin_dist = get_bin_val(val[3])
+        formatted_array[val[0] - 1][int(val[1] - 1)] = bin_dist
+        formatted_array[int(val[1] - 1)][val[0] - 1] = bin_dist
+    return formatted_array
 
 
-# fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/fasta_dictionary.txt')
-# true_dir = '/home/rajroy/Contacts/contacts_heterodimers/'
-# true_files = specific_filename_reader(_input_dir=true_dir, _extension='.rr')
-# fasta_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/het30_splitted_fasta/'
-# fasta_list = specific_dir_reader(fasta_dir)
-out_dir = '/home/rajroy/q3_het30/cmap'
+def file_reader(_input):
+    content_arry = []
+    f = open(_input, "r")
+    if f.mode == 'r':
+        content_arry = f.read().splitlines()
+        f.close()
+    return content_arry
+
+
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/fasta_dictionary.txt')
-true_dir = '/home/rajroy/q3_het30/rr_test/'
-true_files = specific_filename_reader(_input_dir=true_dir, _extension='.rr')
-fasta_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/het30_splitted_fasta/'
-fasta_list = specific_dir_reader(fasta_dir)
-
 file_arr = []
-for file in true_files:
-    name_arr = file.split('_')
-    name = name_arr[0] + '_' + name_arr[1]
-    file_arr.append(name)
-total=0
-count = 0
-for file in fasta_list:
-    print(file)
 
-    # name_arr = file.split('_')
-    name = ''
-    order_a = 0
-    order_b = 0
 
+# input_files = '/home/rajroy/test_dist_dir/all_training_protein_list.txt'
+input_files = '/home/rajroy/het_30_tr_roseeta_data_dncon2_divi_feature/train_list_0116221/all_training_protein_list.txt'
+list_files = file_reader(input_files)
+# output_dir = "/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/het_30_bin_200/"
+output_dir = "/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/NEW_DIST_FILES/dist_bins/"
+# dist_dir= "/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/het_30_dist/"
+dist_dir= "/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/NEW_DIST_FILES/Dist_files/"
+print(list_files)
+missing_counter = 0
+for file in list_files:
+    name = []
     if '__' in file:
-
+        # temp=files.replace('__','_')
+        # name.append(temp.split('_')[1])
+        # name.append(temp.split('_')[0])
         name_arr = file.replace('__', '_').split('_')
         name = name_arr[1] + '_' + name_arr[0]
-        # order_a = len(fasta_dict.get(name_arr[1]))
-        order_a =0
-        order_b =  len(fasta_dict.get(name_arr[1]))
+        order_a = 0
+        order_b = len(fasta_dict.get(name_arr[1]))
 
     else:
+        # name =files.split('_')
         name_arr = file.split('_')
         name = name_arr[0] + '_' + name_arr[1]
         order_a = 0
@@ -157,35 +175,15 @@ for file in fasta_list:
     len_a = len(fasta_dict.get(name_arr[0]))
     len_b = len(fasta_dict.get(name_arr[1]))
     total = len_a + len_b
-    print( str (len_a)+','+str(len_b)+','+str(len_a + len_b))
-    # # before do a search to see if any missing
-    # if name in file_arr:
-    #     count +=1
-    # # elif name_arr[0]+'_'+name_arr[1] in file_arr:
-    # #     count+=1
-    # else:
-    #     print(file)
-
-    # file_array_return()
-    # true_file_format = name + '_contact_' + name[4] + name[10] + '.rr'
-    true_file_format = name +'.rr_' + name[4] + name[10] + '.rr'
-    if not os.path.exists(true_dir +true_file_format):
-        continue
+    # print(str(len_a) + ',' + str(len_b) + ',' + str(len_a + len_b))
+    true_file_format = dist_dir+name + '_dist_.txt'
     # get length
-    final_name = out_dir + name + '.txt'
-
-    if not os.path.isfile(final_name):
-        dist_array = read_pair_file_into_array(true_dir + true_file_format)
+    final_name = output_dir + name + '.npz'
+    print(file)
+    if os.path.exists(true_file_format) and not os.path.exists(final_name):
+        missing_counter = missing_counter + 1
+        dist_array = read_pair_file_into_array(true_file_format)
         filter_array = filter_dist_array(dist_array, order_a, order_b)
         formatted_value = label_formatter(filter_array, total)
-
-        write2file(final_name, formatted_value)
-    count = count + 1
-    print(count)
-print(count)
-print(len(fasta_list))
-print(count / len(fasta_list))
-
-# modify the res number
-# matrix of L x L
-# for each row [i][j] ==1
+        np.savez_compressed(final_name, formatted_value)
+print(missing_counter)
