@@ -193,7 +193,7 @@ report =1
 # THRESHOLD = n/100
 SAMPLE_SIZE = 0
 
-predict_cmap_dir = "/home/rajroy/casp_deephomo/cmap/"
+predict_cmap_dir = "/home/rajroy/drcon_alpha_basic_filter_msa/cmapfinal_max_alpha/"
 # predict_cmap_dir = "//home/rajroy/cmapfilter_max_82/"
 real_cmap_dir = "/home/rajroy/casp_true_inter_chain_100621/"
 for file in test_file_name:
@@ -202,7 +202,7 @@ for file in test_file_name:
     # predict_cmap =predict_cmap_dir+file[0:5]+"o.npy.txt"
     # predict_cmap = predict_cmap_dir + file[0:5] + "_cmap.txt"
     # predict_cmap = predict_cmap_dir + file[0:5] + "_cmap.txt"
-    predict_cmap = predict_cmap_dir + file[0:5] + ".rr.cmap"
+    predict_cmap = predict_cmap_dir + file[0:5] + "o.cmap"
     print(predict_cmap)
     real_cmap = real_cmap_dir+file
 
@@ -218,7 +218,9 @@ for file in test_file_name:
     # if not os.path.exists(real_cmap):
     #     continue
     pred_arr = getY(predict_cmap)
-    # pred_arr = fix_pred_map(pred_arr)
+    #if your DRCon is not symmetrical then use this normally for DRCon it has been used
+
+    #pred_arr = fix_pred_map(pred_arr)
     empty_cmap= np.zeros(pred_arr.shape)
     name = os.path.basename(predict_cmap).replace('.txt', '')
     real_arr = rr2cmap(real_cmap,empty_cmap)
@@ -258,9 +260,9 @@ def report_individual_target(_data_array, _file_name):
     print(output_dir + name_of_output_file)
 
 
-if report ==444:
+if report ==1:
     output_dir = '/home/rajroy/'
-    FILE_NAME = "FINAL_deep_homo_casp"
+    FILE_NAME = "Alphafold_FINAL_RESULT"
     report_individual_target(relax_data_0, output_dir + FILE_NAME + '_relax_0')
     report_individual_target(relax_data_1, output_dir + FILE_NAME + '_relax_1')
     report_individual_target(relax_data_2, output_dir + FILE_NAME + '_relax_2')
