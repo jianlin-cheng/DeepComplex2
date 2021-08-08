@@ -85,51 +85,53 @@ def calculateEvaluationStats(_pred_cmap, _true_cmap, L,_number_contacts):
             con_num += 1
 
         if i == 5:
-            prec_T5 = con_num
-            if prec_T5 > 100: prec_T5 = 100
+            prec_T5 = con_num/_number_contacts
+            if prec_T5  > 1.0:
+                prec_T5 = 1.0
             print("L=", L, "Val=", 5, "Con_num=", con_num)
         if i == 10:
-            prec_T10 = con_num
-            if prec_T10 > 100: prec_T10 = 100
+            prec_T10 = con_num/_number_contacts
+            if prec_T10  > 1.0: prec_T10 = 1.0
             print("L=", L, "Val=", 10, "Con_num=", con_num)
         if i == 20:
-            prec_T20 = con_num
-            if prec_T20 > 100: prec_T20 = 100
+            prec_T20 = con_num/_number_contacts
+            if prec_T20  > 1.0: prec_T20 = 1.0
             print("L=", L, "Val=", 20, "Con_num=", con_num)
         if i == 30:
-            prec_T30 = con_num
-            if prec_T30 > 100: prec_T30 = 100
+            prec_T30 = con_num/_number_contacts
+            if prec_T30  > 1.0: prec_T30 = 1.0
             print("L=", L, "Val=", 30, "Con_num=", con_num)
         if i == 50:
-            prec_T50 = con_num
-            if prec_T50 > 100: prec_T50 = 100
+            prec_T50 = con_num/_number_contacts
+            if prec_T50  > 1.0: prec_T50 = 1.0
             print("L=", L, "Val=", 50, "Con_num=", con_num)
         if i == int((L / 30) + 0.5):
-            prec_L30 = con_num
-            if prec_L30 > 100: prec_L30 = 100
+            prec_L30 = con_num/_number_contacts
+            if prec_L30  > 1.0: prec_L30 = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 20) + 0.5):
-            prec_L20 = con_num
-            if prec_L20 > 100: prec_L20 = 100
+            prec_L20 = con_num/_number_contacts
+            if prec_L20  > 1.0: prec_L20 = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 10) + 0.5):
-            prec_L10 = con_num
-            if prec_L10 > 100: prec_L10 = 100
+            prec_L10 = con_num/_number_contacts
+            if prec_L10  > 1.0: prec_L10 = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 5) + 0.5):
-            prec_L5 = con_num
-            if prec_L5 > 100: prec_L5 = 100
+            prec_L5 = con_num/_number_contacts
+            if prec_L5  > 1.0: prec_L5 = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L) + 0.5):
-            prec_L = con_num
-            if prec_L > 100: prec_L = 100
+            prec_L = con_num/_number_contacts
+            if prec_L  > 1.0: prec_L = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((2 * L) + 0.5):
-            prec_2L = con_num
-            if prec_2L > 100: prec_2L = 100
+            prec_2L = con_num/_number_contacts
+            if prec_2L  > 1.0: prec_2L = 1.0
             print("L=", L, "Val=", i, "Con_num=", con_num)
 
-    return [prec_T5/_number_contacts, prec_T10/_number_contacts, prec_T20/_number_contacts, prec_T30/_number_contacts, prec_T50/_number_contacts, prec_L30/_number_contacts, prec_L20/_number_contacts, prec_L10/_number_contacts, prec_L5/_number_contacts, prec_L/_number_contacts, prec_2L/_number_contacts]
+    # return [prec_T5/_number_contacts, prec_T10/_number_contacts, prec_T20/_number_contacts, prec_T30/_number_contacts, prec_T50/_number_contacts, prec_L30/_number_contacts, prec_L20/_number_contacts, prec_L10/_number_contacts, prec_L5/_number_contacts, prec_L/_number_contacts, prec_2L/_number_contacts]
+    return [prec_T5, prec_T10, prec_T20, prec_T30, prec_T50, prec_L30, prec_L20, prec_L10, prec_L5, prec_L, prec_2L]
 
 
 
@@ -161,9 +163,19 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/validation_list.txt'
+# test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_121220/test_list.txt'
+# test_file = '/home/rajroy/400_run/test_list.txt'
 # recall just extract how many
-cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+# cmap_dir = "/home/rajroy/hq_200/"
+# cmap_dir = "/home/rajroy/400_new_het_24/"
+# cmap_dir = "/home/rajroy/cmap_predict_200_farhan/"
+
+test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new_2/training_list_het_400/test_list.txt'
+# test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/validation_list.txt'
+# cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+# cmap_dir = "/home/rajroy/400_new_het_24/"
+# cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
+cmap_dir = "/home/rajroy/400_zdock_out/cmaps/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
@@ -171,7 +183,11 @@ all_threshold_values = []
 # THRESHOLD = n/100
 SAMPLE_SIZE=0
 for file in test_file_name:
-    predict_cmap = cmap_dir + file + '_.rr.npy.txt'
+    name_1 = file.split('_')
+    predict_cmap = cmap_dir + name_1[0]+'_'+name_1[1] + '.txt'
+
+
+    # predict_cmap = cmap_dir + name_arrr_1[0]+'_'+name_arrr_1[1] + '.txt'
     if os.path.isfile(predict_cmap):
         SAMPLE_SIZE=SAMPLE_SIZE+1
 
@@ -180,7 +196,7 @@ for file in test_file_name:
         # /home/rajroy/predict_cmap_200_hetero/Y-1H3OB_1H3OC_3305.txt.npy.txt'
 
         # processed cmap
-        name = os.path.basename(predict_cmap)
+        name = os.path.basename(predict_cmap).replace('.txt','')
         if '__' in name:
             name=name.replace('__','_')
 
@@ -194,6 +210,7 @@ for file in test_file_name:
         total = len_a + len_b
 
         #removing symmetry
+        # real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
         real_cmap = cmap_dir + 'Y-' + file + '.txt.npy.txt'
         real_arr = fix_pred_map( getY(real_cmap), len_a, len_b)
 

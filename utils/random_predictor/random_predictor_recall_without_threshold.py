@@ -79,61 +79,60 @@ def calculateEvaluationStats(_true_cmap, _len_a, _len_b,_number_of_contacts):
     max_Top = int((2 * L) + 0.5)
     previous_values = []
     if 50 > max_Top: max_Top = 50
-    if max_Top > _len_a*_len_b:
-        print(max_Top)
+
     for i in range(1, max_Top + 1):
         x, y = random_pair_getter(previous_values, _len_a, _len_b)
-        previous_values.append(str(_len_a) + '_' + str(_len_b))
+        previous_values.append(str(x) + '_' + str(y))
 
         if true_cmap[x][y] == 1:
             con_num += 1
             true_cmap[x][y] = 0
         if i == 5:
-            prec_T5 = con_num
-            if prec_T5 > 100: prec_T5 = 100
+            prec_T5 = con_num/_number_of_contacts
+            if prec_T5 > 1.00: prec_T5 = 1.00
             print("L=", L, "Val=", 5, "Con_num=", con_num)
         if i == 10:
-            prec_T10 = con_num
-            if prec_T10 > 100: prec_T10 = 100
+            prec_T10 = con_num/_number_of_contacts
+            if prec_T10 > 1.00: prec_T10 = 1.00
             print("L=", L, "Val=", 10, "Con_num=", con_num)
         if i == 20:
-            prec_T20 = con_num
-            if prec_T20 > 100: prec_T20 = 100
+            prec_T20 = con_num/_number_of_contacts
+            if prec_T20 > 1.00: prec_T20 = 1.00
             print("L=", L, "Val=", 20, "Con_num=", con_num)
         if i == 30:
-            prec_T30 = con_num
-            if prec_T30 > 100: prec_T30 = 100
+            prec_T30 = con_num/_number_of_contacts
+            if prec_T30 > 1.00: prec_T30 = 1.00
             print("L=", L, "Val=", 30, "Con_num=", con_num)
         if i == 50:
-            prec_T50 = con_num
-            if prec_T50 > 100: prec_T50 = 100
+            prec_T50 = con_num/_number_of_contacts
+            if prec_T50 > 1.00: prec_T50 = 1.00
             print("L=", L, "Val=", 50, "Con_num=", con_num)
         if i == int((L / 30) + 0.5):
-            prec_L30 = con_num
-            if prec_L30 > 100: prec_L30 = 100
+            prec_L30 = con_num/_number_of_contacts
+            if prec_L30 > 1.00: prec_L30 = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 20) + 0.5):
-            prec_L20 = con_num
-            if prec_L20 > 100: prec_L20 = 100
+            prec_L20 = con_num/_number_of_contacts
+            if prec_L20 > 1.00: prec_L20 = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 10) + 0.5):
-            prec_L10 = con_num
-            if prec_L10 > 100: prec_L10 = 100
+            prec_L10 = con_num/_number_of_contacts
+            if prec_L10 > 1.00: prec_L10 = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L / 5) + 0.5):
-            prec_L5 = con_num
-            if prec_L5 > 100: prec_L5 = 100
+            prec_L5 = con_num/_number_of_contacts
+            if prec_L5 > 1.00: prec_L5 = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((L) + 0.5):
-            prec_L = con_num
-            if prec_L > 100: prec_L = 100
+            prec_L = con_num/_number_of_contacts
+            if prec_L > 1.00: prec_L = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
         if i == int((2 * L) + 0.5):
-            prec_2L = con_num
-            if prec_2L > 100: prec_2L = 100
+            prec_2L = con_num/_number_of_contacts
+            if prec_2L > 1.00: prec_2L = 1.00
             print("L=", L, "Val=", i, "Con_num=", con_num)
 
-    return [prec_T5/_number_of_contacts, prec_T10/_number_of_contacts, prec_T20/_number_of_contacts, prec_T30/_number_of_contacts, prec_T50/_number_of_contacts, prec_L30/_number_of_contacts, prec_L20/_number_of_contacts, prec_L10/_number_of_contacts, prec_L5/_number_of_contacts, prec_L/_number_of_contacts, prec_2L/_number_of_contacts]
+    return [prec_T5, prec_T10, prec_T20, prec_T30, prec_T50, prec_L30, prec_L20, prec_L10, prec_L5, prec_L, prec_2L]
 
 
 def get_evaluation_result(_arr, _relax, _SAMPLE_SIZE):
@@ -171,8 +170,12 @@ relax_0 = []
 relax_1 = []
 relax_2 = []
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/experiment_batch/fasta_dictionary.txt')
-test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/validation_list.txt'
+# test_file = '/home/rajroy/400_run/test_list.txt'
+test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new_2/training_list_het_400/test_list.txt'
+# test_file = '/home/rajroy/het_30_dncon2_model_tr_roseeta_v3_new/training_list_het_400/validation_list.txt'
 cmap_dir = "/home/rajroy/cmap_predict_400_hetero/"
+# cmap_dir = "/home/rajroy/400_new_het_24/"
+# cmap_dir = "/home/rajroy/predict_cmap_200_hetero_test/"
 test_file_name = file_reader(test_file)
 val_array = []
 all_threshold_values = []
@@ -225,3 +228,4 @@ print(
 get_evaluation_result(relax_0, 0, len(test_file_name))
 get_evaluation_result(relax_1, 1, len(test_file_name))
 get_evaluation_result(relax_2, 2,len(test_file_name))
+print( len(test_file_name))

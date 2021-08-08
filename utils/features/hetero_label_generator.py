@@ -113,12 +113,18 @@ def label_formatter(_arr, _len):
     return out_string
 
 
+# fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/fasta_dictionary.txt')
+# true_dir = '/home/rajroy/Contacts/contacts_heterodimers/'
+# true_files = specific_filename_reader(_input_dir=true_dir, _extension='.rr')
+# fasta_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/het30_splitted_fasta/'
+# fasta_list = specific_dir_reader(fasta_dir)
+out_dir = '/home/rajroy/q3_het30/cmap'
 fasta_dict = loadFastaDictionary('/home/rajroy/Downloads/fasta_dictionary.txt')
-true_dir = '/home/rajroy/Contacts/contacts_heterodimers/'
+true_dir = '/home/rajroy/q3_het30/rr_test/'
 true_files = specific_filename_reader(_input_dir=true_dir, _extension='.rr')
 fasta_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/het30_splitted_fasta/'
 fasta_list = specific_dir_reader(fasta_dir)
-out_dir = '/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/rajroy/back_up/het30_tr_roseeta_training_data/Y_Label_1/'
+
 file_arr = []
 for file in true_files:
     name_arr = file.split('_')
@@ -161,7 +167,10 @@ for file in fasta_list:
     #     print(file)
 
     # file_array_return()
-    true_file_format = name + '_contact_' + name[4] + name[10] + '.rr'
+    # true_file_format = name + '_contact_' + name[4] + name[10] + '.rr'
+    true_file_format = name +'.rr_' + name[4] + name[10] + '.rr'
+    if not os.path.exists(true_dir +true_file_format):
+        continue
     # get length
     final_name = out_dir + name + '.txt'
 
