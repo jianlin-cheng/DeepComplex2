@@ -1,5 +1,6 @@
 import glob
 import os
+import sys
 
 import numpy as np
 
@@ -26,10 +27,14 @@ def rr2cmap(_rr):
         _cmap[int(values[1]) - 1][int(values[0]) - 1] = values[4]
     return _cmap
 
+# _inp ="//home/rajroy/casp_deephomo/deephomo_casp_rr/"
+# out_put_dir = "/home/rajroy/experiment/cmap/"
+_inp = sys.argv[1]
+out_put_dir = sys.argv[2]
 # input_dir = os.path.join("/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DeepHomo/DeepHomo_testset/Altered_benchmark/intra_rr/" , '*.rr')
-input_dir = os.path.join("//home/rajroy/casp_deephomo/deephomo_casp_rr/" , '*.rr')
+input_dir = os.path.join(_inp , '*.rr')
 # out_put_dir = "/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DeepHomo/DeepHomo_testset/Altered_benchmark/intra_cmap/"
-out_put_dir = "/home/rajroy/experiment/cmap/"
+
 protein_list = glob.glob(input_dir)
 # val = np.loadtxt("/home/rajroy/features/feat/cmap/6GSX.cmap")
 # print(val)
