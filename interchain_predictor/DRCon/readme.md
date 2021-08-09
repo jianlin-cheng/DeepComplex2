@@ -60,7 +60,7 @@ python DRCON_pred.py /gpfs/alpine/proj-shared/bif132/raj/codes/pytroch_codes/upd
 
 
 
-# TESTED ON THE FOLLOWING LIBRARY PACKAGE##
+# TESTED ON THE FOLLOWING LIBRARY PACKAGE
 python                    3.8.8                h836d2c2_4
 
 pytorch                   1.7.1           cuda10.2_py38_2
