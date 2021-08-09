@@ -1,46 +1,58 @@
+
+
+# The DRCon, homodimer interchain predictor requires Features, as follows:
+**(1) DNCON2 Features**
+**(2) Intrachain contact maps**
+**(3) 8-state secondary strcutures by SCRATCH**
+**(4) trRosetta Features**
+
+# Details for features generation
+
+**(1) To GenerateDncon2 Features follow guideline from here:  https://github.com/jianlin-cheng/DeepComplex **
+After seeting them up and generating the features use the features file.
+e.g feat-11AS.txt or feat-<target_id>.txt
+
+**(2) For extracting the true intrachain you may use the script inside "intrachain_from_pdb" or generate them using some tools and use batch_rr_2_cmap.py to convert it to cmaps
+Converts pdb to intrachain distance
+```
+python pdb2Distancemonomer.py ./4FBL.pdb ./4FBL.fasta ./features
+```
+then place all the rr in a directory and choose a directory to place the cmaps
+```
+python batch_rr_2_cmap  ./input_dir/ ./ouput_dir/
+```
+
+**(3) FOR 8 state secondary features  use SCRATCH-1D_1.1: **
+Generate them using scratch and use the script "SS8_onehot.py" to get the one-hot encoded feature files
+```
+Usage : python ss8_onehot.py <input_file_name> <output_dir>
+e.g python ss8_onehot.py ./4FBL.ss8 ./
+```
+
+**(4) For trRosetta Features **
+Use this link for setting it up : https://github.com/gjoni/trRosetta
+To generate the trRosetta features you will  need alignment file in a3m format, you may generate them sepeartly or use the file inside the alignment file of the DNCON2 features.
+Inside the DNCON2 aligment file there is a file called result.txt open it and use the corresponding "a3m" of the final ".aln"
+```
+e.g of the text inside results.txt file
+"cp jhm-1e-10.aln T1087o.aln"
+Therefore use the jhm-1e-10.a3m for trRosetta features
+```
+
+
+Place the predict_2.py insisde the trRosetta_features_generator inside the directory "netowrk" of the trRosetta
+```
+Usage : python predict_2.py -m ./model2019_07 ./example/T1001.a3m ./example/
+```
+
+Finally run the predictor.
 ```
 USAGE: python DRCON_pred.py <MODEL_PATH> <OUTPUT_PATH> <TARGET_ID> <DNCON Feature path> <INTRACHAIN Feature path> <SS8 Feature path> <trRoseetta Feature path>
 e.g
 python DRCON_pred.py /gpfs/alpine/proj-shared/bif132/raj/codes/pytroch_codes/updated_history/weighths_82 /gpfs/alpine/proj-shared/bif132/raj/codes/pytroch_codes/ 3GWR /gpfs/alpine/proj-shared/bif132/raj/dimer/Deephomo_data/dncon_feat_only/feat-3GWR.txt /gpfs/alpine/proj-shared/bif132/raj/dimer/Deephomo_data/intra_cmap/3GWR.cmap /gpfs/alpine/proj-shared/bif132/raj/dimer/Deephomo_data/ss8_one_hot/3GWR.feat_ss8 /gpfs/alpine/proj-shared/bif132/raj/dimer/Deephomo_data/tr_features/3GWR.npz
 ```
 
-It requires Features Like:
-1. DNCON2 Features
-2. Intrachain contact maps
-3. 8-state secondary strcutures by SCRATCH
-4. trRosetta Features
 
-
-
-
-#To GenerateDncon2 Features follow guideline from here:  https://github.com/jianlin-cheng/DeepComplex
-After seeting them up and generating the features use the features file.
-e.g feat-11AS.txt or feat-<target_id>.txt
-
-#For extracting the true intrachain you may use the script inside "intrachain_from_pdb" or generate them using some tools and use batch_rr_2_cmap.py to convert it to cmaps
-Converts pdb to intrachain distance
-python pdb2Distancemonomer.py ./4FBL.pdb ./4FBL.fasta ./features
-then place all the rr in a directory and choose a directory to place the cmaps
-python batch_rr_2_cmap  ./input_dir/ ./ouput_dir/
-
-#FOR 8 state secondary features  use SCRATCH-1D_1.1:
-Generate them using scratch and use the script "SS8_onehot.py" to get the one-hot encoded feature files
-Usage : python ss8_onehot.py <input_file_name> <output_dir>
-e.g python ss8_onehot.py ./4FBL.ss8 ./
-
-#For trRosetta Features
-Use this link for setting it up : https://github.com/gjoni/trRosetta
-To generate the trRosetta features you will  need alignment file in a3m format, you may generate them sepeartly or use the file inside the alignment file of the DNCON2 features.
-Inside the DNCON2 aligment file there is a file called result.txt open it and use the corresponding "a3m" of the final ".aln"
-
-e.g of the text inside results.txt file
-"cp jhm-1e-10.aln T1087o.aln"
-Therefore use the jhm-1e-10.a3m for trRosetta features
-
-
-
-Place the predict_2.py insisde the trRosetta_features_generator inside the directory "netowrk" of the trRosetta
-Usage : python predict_2.py -m ./model2019_07 ./example/T1001.a3m ./example/
 
 
 ##TESTED ON THE FOLLOWING LIBRARY PACKAGE##
