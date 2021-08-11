@@ -160,8 +160,9 @@ def fix_pred_map (_input):
     out = np.zeros((len, len))
     for i in range(len):
         for j in range(len):
-            out[i][j] =float( (_input[i][j]+_input[j][i]))/2
-            out[j][i] = float((_input[i][j] + _input[j][i])) / 2
+            temp = float( (_input[i][j]+_input[j][i]))/2
+            out[i][j] =temp
+            out[j][i] = temp
     return  out
 
 
@@ -220,7 +221,7 @@ for file in test_file_name:
     pred_arr = getY(predict_cmap)
     #if your DRCon is not symmetrical then use this normally for DRCon it has been used
 
-    #pred_arr = fix_pred_map(pred_arr)
+    pred_arr = fix_pred_map(pred_arr)
     empty_cmap= np.zeros(pred_arr.shape)
     name = os.path.basename(predict_cmap).replace('.txt', '')
     real_arr = rr2cmap(real_cmap,empty_cmap)
@@ -260,7 +261,7 @@ def report_individual_target(_data_array, _file_name):
     print(output_dir + name_of_output_file)
 
 
-if report ==1:
+if report ==3232:
     output_dir = '/home/rajroy/'
     FILE_NAME = "Alphafold_FINAL_RESULT"
     report_individual_target(relax_data_0, output_dir + FILE_NAME + '_relax_0')

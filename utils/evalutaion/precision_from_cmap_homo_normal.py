@@ -178,8 +178,9 @@ def fix_pred_map (_input):
     out = np.zeros((len, len))
     for i in range(len-1):
         for j in range(len - 1):
-            out[i][j] =float( (_input[i][j]+_input[j][i]))/2
-            out[j][i] = float((_input[i][j] + _input[j][i])) / 2
+            temp = float((_input[i][j] + _input[j][i])) / 2
+            out[i][j] = temp
+            out[j][i] = temp
     return  out
 
 
@@ -202,13 +203,15 @@ report = 1
 SAMPLE_SIZE = 0
 
 # predict_cmap_dir = "//home/rajroy/predicted_contacts//"
-real_cmap_dir = "//media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DeepHomo/DeepHomo_testset/Altered_benchmark/labels_cmap/"
+# real_cmap_dir = "//media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DeepHomo/DeepHomo_testset/Altered_benchmark/labels_cmap/"
+real_cmap_dir = "//home/rajroy/rr2cmap_elham/"
 # real_cmap_dir = "//home/rajroy/Y-Labels/"
 # real_rr =specific_filename_reader(real_cmap_dir,".cmap")
 missing_list = []
 # predict_cmap_dir=real_cmap_dir ="/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DIMER_PAPER/deepHomo_casp/deepHomo_cmap/"
 # predict_cmap_dir="/home/rajroy/experiment/cmap_symmetrical/"
-predict_cmap_dir="/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DIMER_PAPER/homo_std_test_set/cmapfinal_deephomo_ep_82/"
+# predict_cmap_dir="/media/rajroy/fbc3794d-a380-4e0f-a00a-4db5aad57e75/hdd/DIMER_PAPER/homo_std_test_set/cmapfinal_deephomo_ep_82/"
+predict_cmap_dir="/home/rajroy/predictions/"
 real_rr =specific_filename_reader(predict_cmap_dir,".cmap")
 for file in real_rr:
     print(file)
@@ -218,7 +221,7 @@ for file in real_rr:
         # real_cmap = real_cmap_dir+file
         # real_cmap = real_cmap_dir+"Y-"+file.replace(".cmap",".txt")
         # real_cmap = real_cmap_dir+"Y-"+file+".txt"
-        real_cmap = real_cmap_dir +file+".rr.cmap"
+        real_cmap = real_cmap_dir +file.replace("cmap_","")+".rr.cmap"
 
         # f = list(filter(lambda x: file in x, real_rr))
         # if len(f)==0:
@@ -257,7 +260,8 @@ for file in real_rr:
         # if not os.path.exists(real_cmap):
         #     continue
         # pred_arr = getY(predict_cmap)
-        pred_arr = fix_pred_map(np.loadtxt(predict_cmap))
+        # pred_arr = fix_pred_map(np.loadtxt(predict_cmap))
+        pred_arr = np.loadtxt(predict_cmap)
         empty_cmap= np.zeros(pred_arr.shape)
         name = os.path.basename(predict_cmap).replace('.txt', '')
         # real_arr = rr2cmap(real_cmap,empty_cmap)
@@ -298,9 +302,9 @@ def report_individual_target(_data_array, _file_name):
     print(output_dir + name_of_output_file)
 
 print(missing_list)
-if report ==45454:
+if report ==1:
     output_dir = '/home/rajroy/'
-    FILE_NAME = "Aveerage_cmap_ep_82_deephomo_testset"
+    FILE_NAME = "homo_115_elham"
     report_individual_target(relax_data_0, output_dir + FILE_NAME + '_relax_0')
     report_individual_target(relax_data_1, output_dir + FILE_NAME + '_relax_1')
     report_individual_target(relax_data_2, output_dir + FILE_NAME + '_relax_2')
