@@ -38,3 +38,6 @@ git clone git@github.com:jianlin-cheng/DeepComplex2.git
    To Generate complex structures by CNS run the scripts at: https://github.com/jianlin-cheng/DeepComplex.
    
 
+# DRCon
+<h4> To Use DRCon follow the readme in this link
+https://github.com/jianlin-cheng/DeepComplex2/tree/main/interchain_predictor/DRCon
