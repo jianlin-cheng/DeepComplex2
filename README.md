@@ -32,7 +32,7 @@ git clone git@github.com:jianlin-cheng/DeepComplex2.git
    $ sh scripts/run_dock_mc.sh 1D3Y  /data/esdft/initial_starts/1D3Y_modified.pdb  /data/esdft/restraints/1D3Y_AB.rr  /data/esdft/output  /data/esdft/weight_files/talaris2013.wts
 ``` 
 
-<h4> Reconstruct complexes using CNS </h4>
+<h4> A related tool of reconstructing complexe structures using CNS from inter-chain contacts</h4>
 
 
    To Generate complex structures by CNS run the scripts at: https://github.com/jianlin-cheng/DeepComplex.
