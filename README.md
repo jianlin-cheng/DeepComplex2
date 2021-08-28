@@ -1,5 +1,5 @@
 # DeepComplex2
-Distance-based methods to generate complex structures using inter-chain residue-residue contacts
+Distance-based methods to generate complex structures using inter-chain residue-residue contacts. This package includes two optimization tools to reconstruct the quaternary structures of protein dimers: a gradient descent (GD) method and a Markov Chain Monte Carlo (MC) method. The two methods depend on PyRosett4 package.
 
 **(1) Download the code (short path is recommended)**
 
